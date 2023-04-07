@@ -154,17 +154,10 @@ class SMSAdapter implements SMSAdapterContract
     public function check(mixed $input): bool
     {
         foreach ($this->getTemplateRules() as $rule) {
-            if (!$rule instanceof SMSRuleContract) {
+            if (!$rule instanceof SMSRuleContract || ($check = $rule->get($this)) === true) {
                 continue;
             }
-
-            $rule = $rule->get($this);
-
-            if ($rule === true) {
-                continue;
-            }
-
-            if ($rule === false || !($rule == $input)) {
+            if ($check === false || !($check == $input)) {
                 return false;
             }
         }
