@@ -28,11 +28,11 @@ $this->to(['13600000000','13600000001']);
 
 ## 短信名称及短信参数
 
-public function code(string $templateName, array $templateParam = []): static;
+public function scene(string $templateName, array $templateParam = []): static;
 
 ```php
-$this->code('code');
-$this->code('code',['code' => 123456]);
+$this->scene('code');
+$this->scene('code',['code' => 123456]);
 ```
 
 ## 发送短信
@@ -48,7 +48,7 @@ $this->send();
 public function check(mixed $input): bool;
 
 ```php
-$this->to('13600000000')->code('code')->check('123456');
+$this->to('13600000000')->scene('code')->check('123456');
 ```
 
 # 使用场景
@@ -63,7 +63,7 @@ return [
         'access_key_id' => env('ALIYUN_ACCESS_KEY_ID', ''),
         'access_key_secret' => env('ALIYUN_ACCESS_KEY_SECRET', ''),
         'sign_name' => '阿里云',
-        'template' => [
+        'scene' => [
             'code' => [
                 'template_code' => 'SMS_35650882',
                 'template_text' => '您的验证码为：${code}，请勿泄露于他人，本验证码有效期 5 分钟！',
@@ -94,7 +94,7 @@ return [
         'secret_key' => env('TENCENTCLOUD_SECRET_KEY', ''),
         'sms_sdk_app_id' => env('TENCENTCLOUD_SMS_SDK_APP_ID', ''),
         'sign_name' => '腾讯云',
-        'template' => [
+        'scene' => [
             'code' => [
                 'template_id' => '449739',
                 'template_text' => '您的验证码为：{1}，请勿泄露于他人，本验证码有效期 5 分钟！！',
@@ -124,23 +124,23 @@ return [
 ```
 
 ```php
-SMS::via('aliyun')->to('13600000000,13600000001')->code('code', ['code' => 123456])->send();
-SMS::via('aliyun')->to('13600000000')->code('code')->check('123456');
+SMS::via('aliyun')->to('13600000000,13600000001')->scene('code', ['code' => 123456])->send();
+SMS::via('aliyun')->to('13600000000')->scene('code')->check('123456');
 
-SMS::via('aliyun')->to('13600000001')->code('password', ['code' => 123456, 'minute' => 15])->send();
-sms()->via('aliyun')->to(['13600000001'])->code('password')->check(123456);
+SMS::via('aliyun')->to('13600000001')->scene('password', ['code' => 123456, 'minute' => 15])->send();
+sms()->via('aliyun')->to(['13600000001'])->scene('password')->check(123456);
 
-SMS::via('qcloud')->to(['13600000000','13600000001'])->code('code', ['code' => 123456])->send();
-SMS::via('qcloud')->to(['13600000001'])->code('code')->check(123456);
+SMS::via('qcloud')->to(['13600000000','13600000001'])->scene('code', ['code' => 123456])->send();
+SMS::via('qcloud')->to(['13600000001'])->scene('code')->check(123456);
 
-SMS::via('qcloud')->to('13627685922')->code('password', ['code' => 123456, 'minute' => 15])->send();
-sms()->via('qcloud')->to('13600000001')->code('password')->check(123456);
+SMS::via('qcloud')->to('13627685922')->scene('password', ['code' => 123456, 'minute' => 15])->send();
+sms()->via('qcloud')->to('13600000001')->scene('password')->check(123456);
 ```
 
 ```php
-SMS::to('13600000000,13600000001')->code('code', ['code' => 123456])->send();
-SMS::via('qcloud')->to(['13600000000','13600000001'])->code('code', ['code' => 123456])->send();
+SMS::to('13600000000,13600000001')->scene('code', ['code' => 123456])->send();
+SMS::via('qcloud')->to(['13600000000','13600000001'])->scene('code', ['code' => 123456])->send();
 
-sms()->to(['13600000001'])->code('password')->check(123456);
-sms()->via('qcloud')->to('13600000001')->code('password')->check(123456);
+sms()->to(['13600000001'])->scene('password')->check(123456);
+sms()->via('qcloud')->to('13600000001')->scene('password')->check(123456);
 ```

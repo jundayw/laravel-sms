@@ -12,7 +12,7 @@ use Jundayw\SMS\Contracts\SMSResponseContract;
  * @method static SMSAdapterContract via(string $via)
  * @method static SMSAdapterContract getDriver()
  * @method static SMSAdapterContract to(mixed $recipients)
- * @method static SMSAdapterContract code(string $templateName, array $templateParam = [])
+ * @method static SMSAdapterContract scene(string $templateName, array $templateParam = [])
  * @method static SMSResponseContract send(array $options = [])
  * @method static bool check(mixed $input = null)
  *

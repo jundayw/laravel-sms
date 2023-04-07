@@ -126,13 +126,13 @@ class SMSAdapter implements SMSAdapterContract
         return $this;
     }
 
-    public function code(string $templateName, array $templateParam = []): static
+    public function scene(string $templateName, array $templateParam = []): static
     {
-        if (!array_key_exists($templateName, $this->options['template'])) {
+        if (!array_key_exists($templateName, $this->options['scene'])) {
             throw new SMSException("template {$templateName} not found.");
         }
 
-        $this->template      = $this->options['template'][$templateName];
+        $this->template      = $this->options['scene'][$templateName];
         $this->templateName  = $templateName;
         $this->templateParam = $templateParam;
         if (array_key_exists($rules = 'rules', $this->template)) {

@@ -8,9 +8,9 @@ use Jundayw\SMS\Response\Response;
 
 class QCloudSMSAdapter extends SMSAdapter
 {
-    public function code(string $templateName, array $templateParam = []): static
+    public function scene(string $templateName, array $templateParam = []): static
     {
-        parent::code($templateName, $templateParam);
+        parent::scene($templateName, $templateParam);
         $i      = 1;
         $params = [];
         foreach ($this->templateParam as $param) {

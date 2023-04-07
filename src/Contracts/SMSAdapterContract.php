@@ -6,7 +6,7 @@ interface SMSAdapterContract
 {
     public function to(mixed $recipients): static;
 
-    public function code(string $templateName, array $templateParam = []): static;
+    public function scene(string $templateName, array $templateParam = []): static;
 
     public function send(array $options = []): SMSResponseContract;
 
