@@ -1,0 +1,33 @@
+{
+    "name": "jundayw/laravel-sms",
+    "description": "laravel sms",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jundayw",
+            "email": "jundayw@126.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jundayw\\SMS\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jundayw\\SMS\\SMSServiceProvider"
+            ],
+            "aliases": {
+                "SMS": "Jundayw\\SMS\\Facades\\SMS"
+            }
+        }
+    }
+}
