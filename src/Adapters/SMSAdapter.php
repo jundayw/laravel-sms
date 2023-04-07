@@ -153,32 +153,17 @@ class SMSAdapter implements SMSAdapterContract
 
     public function check(mixed $input): bool
     {
-        $recipient = $this->getPhoneNumbers();
-
-        if (is_string($recipient)) {
-            $recipient = explode(',', $recipient);
-        }
-
-        if (count($recipient) < 1) {
-            return false;
-        }
-
-        $recipient = current($recipient);
-
-        $templateName = $this->getTemplateName();
-
-        if (is_null($templateName)) {
-            return false;
-        }
-
         foreach ($this->getTemplateRules() as $rule) {
             if (!$rule instanceof SMSRuleContract) {
                 continue;
             }
-            $rule = $rule->get($this, $recipient, $templateName);
+
+            $rule = $rule->get($this);
+
             if ($rule === true) {
                 continue;
             }
+
             if ($rule === false || !($rule == $input)) {
                 return false;
             }

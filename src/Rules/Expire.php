@@ -74,8 +74,20 @@ class Expire implements SMSRuleContract
         }
     }
 
-    public function get(SMSAdapterContract $adapter, string $recipient = null, mixed $templateName = null)
+    public function get(SMSAdapterContract $adapter)
     {
+        if (count($adapter->getPhoneNumbers()) < 1) {
+            return false;
+        }
+
+        $recipient = current($adapter->getPhoneNumbers());
+
+        $templateName = $adapter->getTemplateName();
+
+        if (is_null($templateName)) {
+            return false;
+        }
+
         $key = sprintf('%s.%s.%s', get_class($adapter), $templateName, $recipient);
         // dump('get', $key);
         return cache()->store($this->driver)->pull($key);
