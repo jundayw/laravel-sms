@@ -56,20 +56,17 @@ class Expire implements SMSRuleContract
     public function put(SMSAdapterContract $adapter)
     {
         $value = $adapter->getTemplateParam($this->getField());
-
         if (is_null($value)) {
             return false;
         }
 
         $ttl = $this->getDefault();
-
-        if (is_string($this->getMinute())) {
+        if (!is_null($this->getMinute())) {
             $ttl = $adapter->getTemplateParam($this->getMinute());
         }
 
         foreach ($adapter->getPhoneNumbers() as $phoneNumber) {
-            $key = sprintf('%s.%s.%s', get_class($adapter), $adapter->getTemplateName(), $phoneNumber);
-            // dump('put', $key, $value, $ttl);
+            $key = join('.', [get_class($adapter), $adapter->getTemplateName(), $phoneNumber]);
             cache()->store($this->driver)->put($key, $value, $ttl * 60);
         }
     }
@@ -79,17 +76,15 @@ class Expire implements SMSRuleContract
         if (count($adapter->getPhoneNumbers()) < 1) {
             return false;
         }
-
         $recipient = current($adapter->getPhoneNumbers());
 
         $templateName = $adapter->getTemplateName();
-
         if (is_null($templateName)) {
             return false;
         }
 
-        $key = sprintf('%s.%s.%s', get_class($adapter), $templateName, $recipient);
-        // dump('get', $key);
+        $key = join('.', [get_class($adapter), $templateName, $recipient]);
+
         return cache()->store($this->driver)->pull($key);
     }
 

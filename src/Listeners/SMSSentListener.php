@@ -30,11 +30,11 @@ class SMSSentListener
         if ($event->response->isError()) {
             return;
         }
-
         foreach ($event->adapter->getTemplateRules() as $rule) {
-            if ($rule instanceof SMSRuleContract) {
-                $rule->put($event->adapter);
+            if (!$rule instanceof SMSRuleContract) {
+                continue;
             }
+            $rule->put($event->adapter);
         }
     }
 }
