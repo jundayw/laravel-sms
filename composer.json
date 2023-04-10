@@ -10,7 +10,9 @@
         }
     ],
     "require": {
-        "php": ">=7.2.0"
+        "php": ">=7.2.0",
+        "alibabacloud/dysmsapi-20170525": "^2.0",
+        "tencentcloud/sms": "^3.0"
     },
     "autoload": {
         "psr-4": {
@@ -29,5 +31,7 @@
                 "SMS": "Jundayw\\SMS\\Facades\\SMS"
             }
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

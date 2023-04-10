@@ -67,6 +67,7 @@ class Expire implements SMSRuleContract
 
         foreach ($adapter->getPhoneNumbers() as $phoneNumber) {
             $key = join('.', [get_class($adapter), $adapter->getTemplateName(), $phoneNumber]);
+            debug_logs('debug')(__METHOD__, [$key, $value, $ttl * 60]);
             cache()->store($this->driver)->put($key, $value, $ttl * 60);
         }
     }
@@ -84,6 +85,8 @@ class Expire implements SMSRuleContract
         }
 
         $key = join('.', [get_class($adapter), $templateName, $recipient]);
+
+        debug_logs('debug')(__METHOD__, [$key]);
 
         return cache()->store($this->driver)->pull($key);
     }

@@ -53,6 +53,12 @@ $this->to('13600000000')->scene('code')->check('123456');
 
 # 使用场景
 
+## 发布配置文件
+
+```php
+php artisan vendor:publish --tag=laravel-sms-config
+```
+
 ## 配置文件
 
 ```php

@@ -23,7 +23,7 @@ class SMSServiceProvider extends ServiceProvider implements DeferrableProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/sms.php' => config_path('sms.php'),
-            ], 'sms');
+            ], 'laravel-sms-config');
         }
 
         Event::listen(SMSSent::class, SMSSentListener::class);
