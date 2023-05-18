@@ -24,7 +24,7 @@ class SMSValidation implements Rule
      * @param mixed $value
      * @return bool
      */
-    public function passes(string $attribute, mixed $value): bool
+    public function passes($attribute, $value)
     {
         if (check_sms($this->to, $this->scene, $value, $this->via)) {
             return true;

@@ -35,7 +35,7 @@ class AliSMSAdapter extends SMSAdapter
      */
     public function send(mixed $options = []): SMSResponseContract
     {
-        if (confi('sms.develop')) {
+        if (config('sms.develop')) {
             return parent::send();
         }
 
