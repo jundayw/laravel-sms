@@ -4,6 +4,7 @@ return [
     'default' => 'aliyun',
     'cache' => null,
     'debug' => false,
+    'develop' => false,
     'aliyun' => [
         'access_key_id' => env('ALIYUN_ACCESS_KEY_ID', ''),
         'access_key_secret' => env('ALIYUN_ACCESS_KEY_SECRET', ''),
