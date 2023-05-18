@@ -99,11 +99,11 @@ class Expire implements SMSHookContract
             return false;
         }
 
-        if (array_key_exists('value', $value)) {
+        if (!array_key_exists('value', $value)) {
             return false;
         }
 
-        if (array_key_exists('try', $value)) {
+        if (!array_key_exists('try', $value)) {
             return false;
         }
 
@@ -112,7 +112,7 @@ class Expire implements SMSHookContract
         }
 
         if ($value['value'] != $input) {
-            $cache->put($key, ['value' => $value, 'try' => $value['try'] + 1]);
+            $cache->put($key, ['value' => $value['value'], 'try' => $value['try'] + 1]);
             return false;
         }
 
