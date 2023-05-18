@@ -6,7 +6,6 @@ use AlibabaCloud\SDK\Dysmsapi\V20170525\Dysmsapi;
 use AlibabaCloud\SDK\Dysmsapi\V20170525\Models\SendSmsRequest;
 use AlibabaCloud\Tea\Utils\Utils\RuntimeOptions;
 use Darabonba\OpenApi\Models\Config;
-use Illuminate\Support\Facades\Log;
 use Jundayw\SMS\Contracts\SMSResponseContract;
 use Jundayw\SMS\Events\SMSSent;
 use Jundayw\SMS\Exceptions\SMSException;

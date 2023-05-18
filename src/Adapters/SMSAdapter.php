@@ -5,7 +5,8 @@ namespace Jundayw\SMS\Adapters;
 use Illuminate\Support\Traits\Macroable;
 use Jundayw\SMS\Contracts\SMSAdapterContract;
 use Jundayw\SMS\Contracts\SMSResponseContract;
-use Jundayw\SMS\Contracts\SMSRuleContract;
+use Jundayw\SMS\Contracts\SMSHookContract;
+use Jundayw\SMS\Events\SMSSent;
 use Jundayw\SMS\Exceptions\SMSException;
 use Jundayw\SMS\Response\Response;
 
@@ -128,14 +129,14 @@ class SMSAdapter implements SMSAdapterContract
 
     public function scene(string $templateName, array $templateParam = []): static
     {
-        if (!array_key_exists($templateName, $this->options['scene'])) {
+        if (!array_key_exists($templateName, $this->options['scenes'])) {
             throw new SMSException("template {$templateName} not found.");
         }
 
-        $this->template      = $this->options['scene'][$templateName];
+        $this->template      = $this->options['scenes'][$templateName];
         $this->templateName  = $templateName;
         $this->templateParam = $templateParam;
-        if (array_key_exists($rules = 'rules', $this->template)) {
+        if (array_key_exists($rules = 'hooks', $this->template)) {
             $this->templateRules = $this->template[$rules];
         }
 
@@ -144,20 +145,22 @@ class SMSAdapter implements SMSAdapterContract
 
     public function send(mixed $options = []): SMSResponseContract
     {
-        return new Response($options, function ($response) {
+        return tap(new Response([], function ($response) {
             return false;
         }, function ($response) {
             return 'OK';
+        }), function ($response) {
+            event(new SMSSent($this, $response));
         });
     }
 
     public function check(mixed $input): bool
     {
         foreach ($this->getTemplateRules() as $rule) {
-            if (!$rule instanceof SMSRuleContract || ($check = $rule->get($this)) === true) {
+            if (!$rule instanceof SMSHookContract) {
                 continue;
             }
-            if ($check === false || !($check == $input)) {
+            if (!$rule->get($this, $input)) {
                 return false;
             }
         }

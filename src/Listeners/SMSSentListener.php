@@ -4,7 +4,7 @@ namespace Jundayw\SMS\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Jundayw\SMS\Contracts\SMSRuleContract;
+use Jundayw\SMS\Contracts\SMSHookContract;
 use Jundayw\SMS\Events\SMSSent;
 
 class SMSSentListener
@@ -31,7 +31,7 @@ class SMSSentListener
             return;
         }
         foreach ($event->adapter->getTemplateRules() as $rule) {
-            if (!$rule instanceof SMSRuleContract) {
+            if (!$rule instanceof SMSHookContract) {
                 continue;
             }
             $rule->put($event->adapter);

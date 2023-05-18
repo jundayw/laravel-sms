@@ -2,9 +2,9 @@
 
 namespace Jundayw\SMS\Contracts;
 
-interface SMSRuleContract
+interface SMSHookContract
 {
     public function put(SMSAdapterContract $adapter);
 
-    public function get(SMSAdapterContract $adapter);
+    public function get(SMSAdapterContract $adapter, mixed $input);
 }
