@@ -21,11 +21,14 @@ class SMSManager implements SMSManagerContract
     }
 
     /**
-     * @param string $via
+     * @param string|null $via
      * @return SMSAdapterContract
      */
-    public function via(string $via): SMSAdapterContract
+    public function via(string $via = null): SMSAdapterContract
     {
+        if (is_null($via)) {
+            $via = config("sms.default");
+        }
         $options = config("sms.{$via}");
         $driver  = config("sms.{$via}.driver");
 

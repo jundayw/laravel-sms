@@ -26,7 +26,7 @@ class SMSValidation implements Rule
      */
     public function passes(string $attribute, mixed $value): bool
     {
-        if (sms()->via($this->via)->to($this->to)->scene($this->scene)->check($value)) {
+        if (check_sms($this->to, $this->scene, $value, $this->via)) {
             return true;
         }
         return false;
@@ -39,6 +39,6 @@ class SMSValidation implements Rule
      */
     public function message(): string
     {
-        return '验证码输入有误';
+        return '验证码有误';
     }
 }

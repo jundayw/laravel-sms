@@ -9,7 +9,7 @@ use Jundayw\SMS\Contracts\SMSManagerContract;
 use Jundayw\SMS\Contracts\SMSResponseContract;
 
 /**
- * @method static SMSAdapterContract via(string $via)
+ * @method static SMSAdapterContract via(string $via = null)
  * @method static SMSAdapterContract getDriver()
  * @method static SMSAdapterContract to(mixed $recipients)
  * @method static SMSAdapterContract scene(string $templateName, array $templateParam = [])
