@@ -14,21 +14,18 @@ use TencentCloud\Sms\V20210111\SmsClient;
 
 class QCloudSMSAdapter extends SMSAdapter
 {
-    private Credential $credential;
-    private HttpProfile $httpProfile;
-    private ClientProfile $clientProfile;
     private SmsClient $client;
 
     protected function initialize(): void
     {
-        $this->credential  = new Credential($this->getOptions('secret_id'), $this->getOptions('secret_key'));
-        $this->httpProfile = new HttpProfile();
-        $this->httpProfile->setEndpoint("sms.tencentcloudapi.com");
+        $credential  = new Credential($this->getOptions('secret_id'), $this->getOptions('secret_key'));
+        $httpProfile = new HttpProfile();
+        $httpProfile->setEndpoint("sms.tencentcloudapi.com");
 
-        $this->clientProfile = new ClientProfile();
-        $this->clientProfile->setHttpProfile($this->httpProfile);
+        $clientProfile = new ClientProfile();
+        $clientProfile->setHttpProfile($httpProfile);
 
-        $this->client = new SmsClient($this->credential, $this->getOptions('options')['region'], $this->clientProfile);
+        $this->client = new SmsClient($credential, $this->getOptions('options')['region'], $clientProfile);
     }
 
     public function scene(string $templateName, array $templateParam = []): static
@@ -45,6 +42,10 @@ class QCloudSMSAdapter extends SMSAdapter
 
     public function send(mixed $options = []): SMSResponseContract
     {
+        if (confi('sms.develop')) {
+            return parent::send();
+        }
+
         $data = [
             "PhoneNumberSet" => $this->getPhoneNumbers(),
             "SmsSdkAppId" => $this->getOptions('sms_sdk_app_id'),
@@ -52,7 +53,7 @@ class QCloudSMSAdapter extends SMSAdapter
             "TemplateId" => $this->getTemplate('template_id'),
             "TemplateParamSet" => array_values($this->getTemplateParam()),
         ];
-        debug_logs('debug')(__METHOD__, $data);
+        debug_sms('debug')(__METHOD__, $data);
         try {
             $request = new SendSmsRequest();
             $request->fromJsonString(json_encode($data));
@@ -61,7 +62,7 @@ class QCloudSMSAdapter extends SMSAdapter
             throw new SMSException($exception->getMessage());
         }
         $response = json_decode($response->toJsonString(), true);
-        debug_logs('debug')(__METHOD__, $response);
+        debug_sms('debug')(__METHOD__, $response);
         // $response = '{
         //     "Error": {
         //         "Code": "AuthFailure.SignatureFailure",

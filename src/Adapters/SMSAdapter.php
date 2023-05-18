@@ -144,10 +144,10 @@ class SMSAdapter implements SMSAdapterContract
 
     public function send(mixed $options = []): SMSResponseContract
     {
-        return new Response([], function ($response) {
-            return true;
+        return new Response($options, function ($response) {
+            return false;
         }, function ($response) {
-            return 'No requests sent';
+            return 'OK';
         });
     }
 

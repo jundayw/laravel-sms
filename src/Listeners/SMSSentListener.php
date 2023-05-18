@@ -25,7 +25,7 @@ class SMSSentListener
      * @param SMSSent $event
      * @return void
      */
-    public function handle(SMSSent $event)
+    public function handle(SMSSent $event): void
     {
         if ($event->response->isError()) {
             return;

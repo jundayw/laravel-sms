@@ -46,7 +46,7 @@ class SMSServiceProvider extends ServiceProvider implements DeferrableProvider
      *
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [SMSManagerContract::class];
     }

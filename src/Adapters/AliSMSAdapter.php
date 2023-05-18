@@ -14,24 +14,31 @@ use Jundayw\SMS\Response\Response;
 
 class AliSMSAdapter extends SMSAdapter
 {
-    private Config $config;
     private Dysmsapi $client;
 
     protected function initialize(): void
     {
-        $this->config = new Config([
+        $config = new Config([
             // 必填，您的 AccessKey ID
             "accessKeyId" => $this->getOptions('access_key_id'),
             // 必填，您的 AccessKey Secret
             "accessKeySecret" => $this->getOptions('access_key_secret'),
         ]);
         // 访问的域名
-        $this->config->endpoint = "dysmsapi.aliyuncs.com";
-        $this->client           = new Dysmsapi($this->config);;
+        $config->endpoint = "dysmsapi.aliyuncs.com";
+        $this->client     = new Dysmsapi($config);;
     }
 
+    /**
+     * @param mixed $options
+     * @return SMSResponseContract
+     */
     public function send(mixed $options = []): SMSResponseContract
     {
+        if (confi('sms.develop')) {
+            return parent::send();
+        }
+
         try {
             $data = [
                 "phoneNumbers" => implode(',', $this->getPhoneNumbers()),
@@ -39,14 +46,14 @@ class AliSMSAdapter extends SMSAdapter
                 "templateCode" => $this->getTemplate('template_code'),
                 "templateParam" => json_encode($this->getTemplateParam(), JSON_UNESCAPED_UNICODE),
             ];
-            debug_logs('debug')(__METHOD__, $data);
+            debug_sms('debug')(__METHOD__, $data);
             $response = $this->client->sendSmsWithOptions(new SendSmsRequest($data), new RuntimeOptions([
                 "ignoreSSL" => true,
             ]));
         } catch (\Throwable $exception) {
             throw new SMSException($exception->getMessage());
         }
-        debug_logs('debug')(__METHOD__, $response->body->toMap());
+        debug_sms('debug')(__METHOD__, $response->body->toMap());
         // $response = '{
         //     "Code": "OK",
         //     "Message": "OK",

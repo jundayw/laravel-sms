@@ -22,6 +22,7 @@ use Jundayw\SMS\Contracts\SMSResponseContract;
  * @method static void flushMacros()
  *
  * @see SMSManagerContract
+ * @see SMSAdapterContract
  * @see Macroable
  */
 class SMS extends Facade
@@ -31,7 +32,7 @@ class SMS extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return SMSManagerContract::class;
     }
